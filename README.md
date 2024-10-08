@@ -1,1 +1,1 @@
-[Kaggle Parkinson_Freezing_of_Gait_Prediction](https://www.kaggle.com/competitions/tlvmc-parkinsons-freezing-gait-prediction)
+[Kaggle Parkinson's Freezing of Gait Prediction](https://www.kaggle.com/competitions/tlvmc-parkinsons-freezing-gait-prediction)
