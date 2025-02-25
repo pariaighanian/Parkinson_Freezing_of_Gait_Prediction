@@ -88,19 +88,13 @@ def extract_fft_features(fft_windows, freq_bins):
 
     return np.array(feature_list)
 
-def map_metadata_to_windows(sub_ids, meta_df):
+def extract_metadata_per_window(sub_ids, sensor_df):
     """
-    Maps patient metadata (Age, Gender, UPDRS_III) to windowed data.
+    Extracts metadata (Age, Gender, UPDRS3) for each window.
     """
-    meta_features = []
-    
-    for sub_id in sub_ids:
-        if sub_id in meta_df.index:
-            patient_meta = meta_df.loc[sub_id]
-            meta_features.append([patient_meta["Age"], patient_meta["Gender"], patient_meta["UPDRS_III"]])
-        else:
-            print(f"Warning: SubID {sub_id} not found in meta-data!") 
-            meta_features.append([0, 0, 0])  # Default values if missing
-    
+    unique_meta = sensor_df[['SubID', 'Age', 'Gender', 'UPDRS3']].drop_duplicates().set_index('SubID')
+
+    meta_features = [unique_meta.loc[sub_id].values for sub_id in sub_ids] 
     return np.array(meta_features)
+
 
