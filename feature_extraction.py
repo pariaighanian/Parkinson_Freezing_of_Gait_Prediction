@@ -103,3 +103,4 @@ def map_metadata_to_windows(sub_ids, meta_df):
             meta_features.append([0, 0, 0])  # Default values if missing
     
     return np.array(meta_features)
+

@@ -60,7 +60,6 @@ def train_and_evaluate_model(model, task_name, data_dict, test_patients):
     """
     print(f"\nTraining model for {task_name} dataset...")
 
-    # Prepare input data for training
     X_train = [data_dict["X_train_raw"], data_dict["X_train_fft"], data_dict["X_train_time"], data_dict["X_train_meta"]]
     y_train = data_dict["labels_train"]
 
@@ -70,11 +69,9 @@ def train_and_evaluate_model(model, task_name, data_dict, test_patients):
     X_test = [data_dict["X_test_raw"], data_dict["X_test_fft"], data_dict["X_test_time"], data_dict["X_test_meta"]]
     y_test = data_dict["labels_test"]
 
-    # Compute class weights to handle imbalance
     class_weights = compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)
     class_weight_dict = {i: class_weights[i] for i in range(len(class_weights))}
 
-    # Train the model
     history = model.fit(
         X_train, y_train,
         validation_data=(X_val, y_val),
@@ -93,7 +90,6 @@ def train_and_evaluate_model(model, task_name, data_dict, test_patients):
     window_counts = df_results.groupby('SubID')['Prediction'].value_counts().unstack(fill_value=0)
     window_counts.columns = ['Predicted_0s', 'Predicted_1s']
 
-    # Use mean probability to make a final decision per patient
     final_patient_preds = df_results.groupby('SubID')['Prediction'].agg(lambda x: round(x.mean()))
 
     # Merge with true patient labels
